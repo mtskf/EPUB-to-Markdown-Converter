@@ -1,0 +1,20 @@
+{
+  "name": "epub2md",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "epub2md": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "epub2": "^3.0.2",
+    "turndown": "^7.2.2"
+  }
+}
