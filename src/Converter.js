@@ -108,20 +108,28 @@ class Converter {
             filter: 'a',
             replacement: (content, node) => {
                 const href = node.getAttribute('href');
-                if (!href) return content;
+                const id = node.getAttribute('id');
+                let prefix = '';
+
+                // If element has ID, preserve it as an anchor
+                if (id) {
+                    prefix = `<a id="${id}"></a>`;
+                }
+
+                if (!href) return content; // Should be handled by 'anchors' rule if no href, but just in case.
 
                 if (href.startsWith('http') || href.startsWith('mailto:')) {
-                    return `[${content}](${href})`;
+                    return `${prefix}[${content}](${href})`;
                 }
 
                 // Rewrite file.html#id to #id
                 const hashIndex = href.indexOf('#');
                 if (hashIndex !== -1) {
                     const hash = href.substring(hashIndex);
-                    return `[${content}](${hash})`;
+                    return `${prefix}[${content}](${hash})`;
                 }
 
-                return content;
+                return prefix + content;
             }
         });
     }
@@ -130,7 +138,8 @@ class Converter {
         this.turndownService.addRule('anchors', {
             filter: (node) => node.nodeName === 'A' && node.hasAttribute('id') && !node.hasAttribute('href'),
             replacement: (content, node) => {
-                return `<a id="${node.getAttribute('id')}"></a>`;
+                // Preserve content inside the anchor if any
+                return `<a id="${node.getAttribute('id')}"></a>${content}`;
             }
         });
     }
@@ -208,9 +217,10 @@ class Converter {
 
     _injectAnchors(htmlText) {
         // Injects <a id="val"></a> before content of elements with IDs
-        // Targets: h1-h6, p, div, span, li, a (but 'a' usually has href anyway)
-        // We use a simplified regex approach.
-        return htmlText.replace(/(<(?:h[1-6]|p|div|span|li|a)[^>]*\s+id=["']([^"']+)["'][^>]*>)/gi, '$1<a id="$2"></a>');
+        // Targets: h1-h6, p, div, span, li
+        // Removed 'a' matching from here to avoid nested anchor issues (<a ...><a ...></a>...</a>).
+        // 'a' tags are handled by Turndown rules instead.
+        return htmlText.replace(/(<(?:h[1-6]|p|div|span|li)[^>]*\s+id=["']([^"']+)["'][^>]*>)/gi, '$1<a id="$2"></a>');
     }
 
     getChapterText(epub, chapterId) {
