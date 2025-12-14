@@ -7,7 +7,7 @@
     "epub2md": "./bin/epub2md.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "epub",
@@ -21,7 +21,12 @@
   "dependencies": {
     "cli-progress": "^3.12.0",
     "commander": "^11.0.0",
+    "epub-gen": "^0.1.0",
     "epub2": "^3.0.2",
+    "nodepub": "^3.2.1",
     "turndown": "^7.2.2"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
   }
 }
