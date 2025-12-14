@@ -40,19 +40,34 @@ describe('Converter Integration Test', () => {
 
         // 4. Check Link Rewriting
         // Link to anchor in same file
-        // Expect: [[#^local-anchor|local anchor]]
+        // Expect Target: ### Local Anchor Target ^local-anchor
+        expect(content).toMatch(/###\s*Local Anchor Target\s*\^local-anchor/);
+        // Expect Link: [[#^local-anchor|local anchor]]
         expect(content).toMatch(/\[\[#\^local-anchor\|local anchor\]\]/);
 
         // Link to another chapter's section
-        // Expect: [[#^chap2-section|Section 2.1]]
+        // Expect Target: ## Section 2.1 ^chap2-section
+        expect(content).toMatch(/##\s*Section 2\.1\s*\^chap2-section/);
+        // Expect Link: [[#^chap2-section|Section 2.1]]
         expect(content).toMatch(/\[\[#\^chap2-section\|Section 2\.1\]\]/);
 
         // Footnote link
-        // Expect: [<a id="ref1"></a>[1]](#note1) or similar depending on where the anchor is attached
-        // Footnote link
-        // Expect: [[#^note1|\[1\]]] (or similar escaping)
-        // Turndown might escape [1] -> \[1\]
-        expect(content).toMatch(/\[\[#\^note1\|\\?\[1\\?\]\]\]/);
+        // Expect: [^note1]
+        expect(content).toMatch(/\[\^note1\]/);
+
+        // Footnote definition
+        // Expect: [^note1]: This is the footnote content.
+        expect(content).toMatch(/\[\^note1\]: This is the footnote content\./);
+
+        // EXTRA: Strict Obsidian Compliance Checks
+        // 1. No HTML Anchors (<a id="...">)
+        expect(content).not.toMatch(/<a\s+id=["'][^"']+["']\s*>/);
+        expect(content).not.toMatch(/<a\s+name=["'][^"']+["']\s*>/);
+
+        // 2. No Standard Markdown Internal Links ([text](#id))
+        // We want ONLY [[#^id|text]]
+        // This regex looks for [text](#id) pattern where id starts with #
+        expect(content).not.toMatch(/\[.+?\]\(#.+?\)/);
 
         // 5. Check Image Extraction
         const assetsDir = path.join(outputDir, 'assets');
