@@ -52,11 +52,12 @@ describe('Converter Integration Test', () => {
         expect(content).toMatch(/\[\[#\^chap2-section\|Section 2\.1\]\]/);
 
         // Footnote link
-        // Expect: [<a id="ref1"></a>[1]](#note1) or similar depending on where the anchor is attached
-        // Footnote link
-        // Expect: [[#^note1|\[1\]]] (or similar escaping)
-        // Turndown might escape [1] -> \[1\]
-        expect(content).toMatch(/\[\[#\^note1\|\\?\[1\\?\]\]\]/);
+        // Expect: [^note1]
+        expect(content).toMatch(/\[\^note1\]/);
+
+        // Footnote definition
+        // Expect: [^note1]: This is the footnote content.
+        expect(content).toMatch(/\[\^note1\]: This is the footnote content\./);
 
         // 5. Check Image Extraction
         const assetsDir = path.join(outputDir, 'assets');
