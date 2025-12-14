@@ -36,34 +36,39 @@ The `Converter` class orchestrates the conversion process in the following stage
 ### C. Chapter Processing (`processChapters`)
 **Goal**: Convert HTML content to Markdown while preserving structure and links.
 
-1. **Iteration**: Loops through `epub.flow` (reading order).
-2. **Anchor Injection (Pre-processing)**:
-   - **Problem**: Turndown strips `id` attributes from headers/paragraphs, breaking internal links.
-   - **Solution**: Before Markdown conversion, regex replaces elements with IDs:
-     - Input: `<h1 id="intro">Title</h1>`
-     - Output: `<h1 id="intro"><a id="intro"></a>Title</h1>`
-   - This ensures a pure HTML anchor survives the conversion.
+1. **Pre-Indexing (`_preindexHeadingText`)**:
+   - Scans all chapters before conversion
+   - Builds `headingTextMap`: `id → heading text`
+   - Enables accurate link resolution to heading text
+
+2. **Anchor Preprocessing (`_preprocessAnchors`)**:
+   - **Standalone Anchors**: `<a id="intro"></a><h1>Title</h1>` → `<h1 id="intro">Title</h1>`
+   - **Chapter Titles**: Converts `<p class="chaptitle">` to `<h1>` headings
+   - **Heading Promotion**: Promotes first heading to H1 if needed
 
 3. **Markdown Conversion (Turndown)**:
-   - **Standard HTML**: Converted to Markdown.
-   - **Proprietary/Complex Tags**: Handled by custom rules.
+   - **Standard HTML**: Converted to Markdown
+   - **Custom Rules**: Handle images, links, footnotes
 
 ### D. Custom Turndown Rules
 
 1. **Images (`img` & `<svg><image>`)**:
-   - Intercepts image tags.
-   - Resolves `src` using the `filenameMap` created during extraction.
-   - Outputs: `![alt](assets/safe_filename.jpg)`.
+   - Resolves `src` using `filenameMap`
+   - Adds `\n\n` spacing to prevent merging with headings
+   - Output: `\n\n![alt](assets/filename.jpg)\n\n`
 
 2. **Internal Links (`a`)**:
-   - **Problem**: Links point to file paths (`chapter2.xhtml#section1`) which don't exist in the merged Markdown.
-   - **Solution**:
-     - If link is external (`http`), keep as is.
-     - If link is internal with a hash (`file.xhtml#id`), rewrite to local anchor (`#id`).
-     - **Assumption**: IDs are unique across the document (mostly true for EPUBs).
+   - **Heading-Text Resolution**:
+     - Extract ID from `href="#id"`
+     - Lookup heading text from `headingTextMap`
+     - Output: `[[#Heading Text|link text]]`
+   - **External Links**: Preserved as-is
+   - **Fallback**: Uses chapter anchors if heading not found
 
-3. **Anchor Preservation**:
-   - Ensures the injected `<a id="..."></a>` tags are not stripped out.
+3. **Footnotes**:
+   - **References**: `<a href="#note1">[1]</a>` → `[^note1]`
+   - **Definitions**: `<p id="note1">[1] Content</p>` → `[^note1]: Content`
+   - **Cleanup**: Removes `[1]` prefixes and back-links from definitions
 
 ## 3. Testing Strategy
 
