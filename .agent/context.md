@@ -1,42 +1,47 @@
-# Project Context
+# プロジェクトコンテキスト
 
-Quick reference for AI agents working on this project.
+AIエージェント向けクイックリファレンス。
 
-## Project Info
-- **Name**: epub2md
-- **Version**: 1.2.0
-- **Purpose**: Convert EPUB to Obsidian-optimized Markdown
-- **Status**: Active development
+## プロジェクト情報
+- **名前**: epub2md
+- **バージョン**: 1.2.0
+- **目的**: EPUBをObsidian向けに最適化されたMarkdownに変換する
+- **ステータス**: 開発中 (Active development)
 
-## Must-Read Documents (Priority Order)
-1. `docs/dev/LESSONS.md` - Key development insights (always read first)
-2. `docs/ARCHITECTURE.md` - System design overview
-3. `docs/DECISIONS.md` - Recent architectural decisions (latest 3-5 entries)
+## ビジョンと価値観 (Vision & Values)
+- **Vision**: "Obsidianユーザーにとって最も信頼性が高く美しいMarkdownを生成するデファクトスタンダードツール"
+- **Core Value**: "**Zero manual edits**" - 変換後の手直しゼロを目指す
 
-## Current Focus
-- Obsidian compatibility (heading-text-based linking)
-- Native footnote support (`[^id]` syntax)
-- Robust EPUB parsing
+## 設計哲学 (Design Philosophy)
+- **堅牢性 (Robustness)**: どんな変なEPUBでも落ちずに処理
+- **単純性 (Simplicity)**: 設定最小限、デフォルト賢く
 
-## Known Limitations
-- Duplicate heading text causes link ambiguity (first match wins)
-- Complex tables converted to HTML by Turndown
-- MathJax/LaTeX not supported
+## 必読ドキュメント (優先度順)
+1. `docs/dev/LESSONS.md` - 開発の教訓 (最優先)
+2. `docs/ARCHITECTURE.md` - システム設計概要
+3. `docs/DECISIONS.md` - 最近の設計決定 (最新3-5件)
 
-## Quick File Reference
-- **Core Logic**: `src/Converter.js`
-- **Tests**: `test/converter.test.js`
-- **CLI Entry**: `bin/epub2md.js`
-- **Config**: `.agent/rules.md`
+## 現在のフォーカス (Current Focus)
+- (No active focus - waiting for next task)
 
-## Key Concepts
-- **Heading-Text Links**: `[[#Heading Text|link text]]` (not Block IDs)
-- **Pre-Indexing**: Scan chapters first to build ID→heading map
-- **Anchor Preprocessing**: Hoist standalone `<a id>` onto headings
-- **Native Footnotes**: `[^id]` for refs, `[^id]: content` for defs
 
-## Development Workflow
-1. Read `docs/dev/LESSONS.md` before starting
-2. Update `CHANGELOG.md` for user-facing changes
-3. Add ADR to `docs/DECISIONS.md` for architectural changes
-4. Extract lessons to `docs/dev/LESSONS.md` after completion
+## 既知の制限事項
+- 見出しテキストが重複するとリンクが曖昧になる (最初のマッチが優先)
+- 複雑なテーブルはTurndownによってHTMLのまま出力される
+- MathJax/LaTeX は未サポート
+
+## ファイルリファレンス
+- **コアロジック**: `src/Converter.js`
+- **テスト**: `test/converter.test.js`
+- **CLIエントリー**: `bin/epub2md.js`
+- **設定**: `.agent/rules.md`
+
+## 重要概念 (Key Concepts)
+- **アーキテクチャと設計**: `docs/ARCHITECTURE.md` を参照 (見出しテキストリンク, Pre-indexing等)
+- **意思決定**: `docs/DECISIONS.md` を参照
+
+## 開発ワークフロー
+1. 開始前に `docs/dev/LESSONS.md` を読む
+2. ユーザー向け変更は `CHANGELOG.md` を更新
+3. アーキテクチャ変更は `docs/DECISIONS.md` にADRを追加
+4. 完了後、教訓を `docs/dev/LESSONS.md` に抽出
