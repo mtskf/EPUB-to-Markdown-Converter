@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Anchor preprocessing to hoist IDs onto headings
 - Pre-indexing of heading text for accurate link resolution
 
+### Documentation
+- Translated all `.agent` documentation to Japanese for better agent context management.
+
+
 ### Changed
 - Internal links now use heading text instead of Block IDs
 - Image output includes explicit spacing (`\n\n`) to prevent merging
