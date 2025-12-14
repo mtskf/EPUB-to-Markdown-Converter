@@ -16,9 +16,11 @@ This tool was built to solve specific pain points in EPUB conversion:
     *   **Collision Avoidance**: Automatically renames files like `image.jpg` to `image_1.jpg` to prevent overwrites.
     *   **SVG Support**: Correctly handles cover images embedded in SVG tags.
 
-3.  **Internal Link Preservation**:
-    *   **Anchor Injection**: Preserves HTML `id` attributes as `<a id="..."></a>` anchors so internal links work in Markdown.
-    *   **Link Rewriting**: Converts `chapter.html#section` links to internal anchors `#section`, allowing seamless navigation within the merged Markdown file.
+3.  **Obsidian-Native Internal Links**:
+    *   **Heading-Text Links**: Converts internal links to `[[#Heading Text|link text]]` format
+    *   **Pre-Indexing**: Scans all chapters to map IDs to heading text for accurate resolution
+    *   **Anchor Preprocessing**: Hoists standalone `<a id>` tags onto headings for proper linking
+    *   **Native Footnotes**: Converts EPUB footnotes to Obsidian's `[^id]` syntax
 
 4.  **Metadata & Frontmatter**:
     *   Generates YAML Frontmatter (Title, Author, Publisher, etc.) by default.
@@ -70,6 +72,9 @@ Run tests with:
 npm test
 ```
 
-## 🏗 Architecture
+## 🏗 Documentation
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed implementation notes and design decisions.
+- **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)**: System design and implementation details
+- **[docs/CHANGELOG.md](./docs/CHANGELOG.md)**: User-facing changes and version history
+- **[docs/DECISIONS.md](./docs/DECISIONS.md)**: Architecture Decision Records (ADRs)
+- **[docs/dev/LESSONS.md](./docs/dev/LESSONS.md)**: Development lessons and best practices
