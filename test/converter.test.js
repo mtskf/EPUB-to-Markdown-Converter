@@ -40,17 +40,18 @@ describe('Converter Integration Test', () => {
 
         // 4. Check Link Rewriting
         // Link to anchor in same file
-        expect(content).toContain('(#local-anchor)');
+        // Expect: [local anchor](#local-anchor)
+        expect(content).toMatch(/\[local anchor\]\(#local-anchor\)/);
 
         // Link to another chapter's section
-        // Note: epub-gen merges contents, so "chapter2.xhtml#chap2-section" might become internal link if paths match.
-        // In our generated epub, we used explicit filenames?
-        // No, epub-gen handles it.
-        // The output showed: `[local anchor](#local-anchor)`
-        // And footnote: `[](#note1)`
+        // Expect: [Section 2.1](#chap2-section)
+        expect(content).toMatch(/\[Section 2\.1\]\(#chap2-section\)/);
 
-        expect(content).toContain('(#chap2-section)');
-        expect(content).toContain('(#note1)');
+        // Footnote link
+        // Expect: [<a id="ref1"></a>[1]](#note1) or similar depending on where the anchor is attached
+        // Based on current output: <a id="ref1"></a>[\[1\]](#note1)
+        // or just check that (#note1) is preceded by [something]
+        expect(content).toMatch(/\[\\?\[1\\?\]\]\(#note1\)/);
 
         // 5. Check Image Extraction
         const assetsDir = path.join(outputDir, 'assets');
