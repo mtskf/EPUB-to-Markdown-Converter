@@ -1,19 +1,25 @@
 {
   "name": "epub2md",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "1.1.0",
+  "description": "A simple Node.js tool to convert EPUB files into Markdown.",
+  "main": "src/Converter.js",
   "bin": {
-    "epub2md": "./index.js"
+    "epub2md": "./bin/epub2md.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "epub",
+    "markdown",
+    "converter",
+    "obsidian"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "commander": "^11.0.0",
     "epub2": "^3.0.2",
     "turndown": "^7.2.2"
   }

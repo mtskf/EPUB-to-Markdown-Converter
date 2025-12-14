@@ -5,14 +5,22 @@ A simple Node.js tool to convert EPUB files into Markdown.
 ## Installation
 
 1.  Clone this repository.
-2.  Install dependencies:
+2.  Install dependencies and link the command globally:
 
     ```bash
     npm install
     npm link
     ```
 
-    *Note: `npm link` makes the `epub2md` command available globally on your system.*
+    *   **`npm link`** makes the `epub2md` command available globally on your system. You can then run `epub2md` from any directory.
+
+    ### Alternative
+
+    You can also install it globally directly from the source folder:
+
+    ```bash
+    npm install -g .
+    ```
 
 ## Usage
 
@@ -24,15 +32,15 @@ epub2md <path-to-epub> [options]
 
 ### Options
 
-*   `--overwrite`: Overwrite the output file if it already exists.
-*   `--keep`: If the output file exists, keep it and save the new file with a numbered suffix (e.g., `filename_1.md`).
+*   `-o, --output <dir>`: Specify the output directory. Defaults to the input file's directory.
+*   `--no-frontmatter`: Disable YAML Frontmatter generation (enabled by default).
 
-If no option is provided and the output file exists, the script will prompt you to choose an action.
+Note: The script currently overwrites the output file if it already exists.
 
 ## Example
 
 ```bash
-epub2md my-book.epub
+epub2md my-book.epub -o ./output
 ```
 
-This will create `my-book.md` in the same directory.
+This will create `my-book.md` in the `./output` directory, and extract images to `./output/assets/`.
