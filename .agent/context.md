@@ -10,7 +10,7 @@ Quick reference for AI agents working on this project.
 
 ## Must-Read Documents (Priority Order)
 1. `docs/dev/LESSONS.md` - Key development insights (always read first)
-2. `ARCHITECTURE.md` - System design overview
+2. `docs/ARCHITECTURE.md` - System design overview
 3. `docs/DECISIONS.md` - Recent architectural decisions (latest 3-5 entries)
 
 ## Current Focus
