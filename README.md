@@ -72,6 +72,9 @@ Run tests with:
 npm test
 ```
 
-## 🏗 Architecture
+## 🏗 Documentation
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed implementation notes and design decisions.
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)**: System design and implementation details
+- **[CHANGELOG.md](./CHANGELOG.md)**: User-facing changes and version history
+- **[docs/DECISIONS.md](./docs/DECISIONS.md)**: Architecture Decision Records (ADRs)
+- **[docs/dev/LESSONS.md](./docs/dev/LESSONS.md)**: Development lessons and best practices
