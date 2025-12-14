@@ -1,46 +1,75 @@
 # EPUB to Markdown Converter
 
-A simple Node.js tool to convert EPUB files into Markdown.
+A robust Node.js tool to convert EPUB files into Markdown, optimized for **Obsidian** and personal knowledge bases.
 
-## Installation
+## ✨ Key Features
 
-1.  Clone this repository.
-2.  Install dependencies and link the command globally:
+This tool was built to solve specific pain points in EPUB conversion:
 
-    ```bash
-    npm install
-    npm link
-    ```
+1.  **Obsidian-Optimized Markdown**:
+    *   **ATX Headers**: Uses `# Heading` instead of underlined headers for outline compatibility.
+    *   **Fenced Code Blocks**: Uses \`\`\` for code blocks instead of indentation.
+    *   **Standard Lists**: Uses `-` for bullet points.
 
-    *   **`npm link`** makes the `epub2md` command available globally on your system. You can then run `epub2md` from any directory.
+2.  **Robust Image Handling**:
+    *   **Extraction**: Extracts all images to an `assets/` subfolder.
+    *   **Collision Avoidance**: Automatically renames files like `image.jpg` to `image_1.jpg` to prevent overwrites.
+    *   **SVG Support**: Correctly handles cover images embedded in SVG tags.
 
-    ### Alternative
+3.  **Internal Link Preservation**:
+    *   **Anchor Injection**: Preserves HTML `id` attributes as `<a id="..."></a>` anchors so internal links work in Markdown.
+    *   **Link Rewriting**: Converts `chapter.html#section` links to internal anchors `#section`, allowing seamless navigation within the merged Markdown file.
 
-    You can also install it globally directly from the source folder:
+4.  **Metadata & Frontmatter**:
+    *   Generates YAML Frontmatter (Title, Author, Publisher, etc.) by default.
 
-    ```bash
-    npm install -g .
-    ```
+5.  **User Experience**:
+    *   **Progress Bar**: Visual feedback during conversion.
+    *   **Comprehensive CLI**: Easy-to-use command line arguments.
 
-## Usage
-
-Run the script with the path to your EPUB file:
+## 🛠 Installation
 
 ```bash
-epub2md <path-to-epub> [options]
+git clone <repository-url>
+cd epub2md
+npm install
+npm link
+```
+
+*Running `npm link` makes the `epub2md` command available globally.*
+
+## 🚀 Usage
+
+```bash
+epub2md <input-file> [options]
 ```
 
 ### Options
 
-*   `-o, --output <dir>`: Specify the output directory. Defaults to the input file's directory.
-*   `--no-frontmatter`: Disable YAML Frontmatter generation (enabled by default).
+*   `-o, --output <dir>`: Specify output directory (default: same as input input).
+*   `--no-frontmatter`: Disable YAML Frontmatter generation.
+*   `-h, --help`: Display help information.
 
-Note: The script currently overwrites the output file if it already exists.
-
-## Example
+### Example
 
 ```bash
-epub2md my-book.epub -o ./output
+epub2md my-book.epub -o ./MyNotes
+```
+Generates `./MyNotes/my-book.md` and `./MyNotes/assets/`.
+
+## 🧪 Testing
+
+The project includes a comprehensive integration test suite that generates a complex EPUB on-the-fly to verify:
+- Structure & Frontmatter
+- Link fixing (Internal and Footnotes)
+- Image extraction
+- Formatting (Lists, Code, Styles)
+
+Run tests with:
+```bash
+npm test
 ```
 
-This will create `my-book.md` in the `./output` directory, and extract images to `./output/assets/`.
+## 🏗 Architecture
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed implementation notes and design decisions.
