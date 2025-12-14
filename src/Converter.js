@@ -138,6 +138,20 @@ class Converter {
         // Add rule to append ^block-id to block elements with ID
         this.turndownService.addRule('obsidian-ids', {
             filter: (node) => {
+                // Heuristic: If a DIV has an ID and contains a Header, move the ID to the Header.
+                // This ensures Obsidian links point to the Header (which is a valid block) instead of the wrapper (which flattens).
+                if (node.nodeName === 'DIV' && node.hasAttribute('id')) {
+                    const id = node.getAttribute('id');
+                    // Find first direct or close header
+                    const firstHeader = node.querySelector('h1, h2, h3, h4, h5, h6');
+                    if (firstHeader && !firstHeader.hasAttribute('id')) {
+                         firstHeader.setAttribute('id', id);
+                         node.removeAttribute('id');
+                         // We processed this DIV's ID, so we return false for the DIV itself (unless it matches other criteria, which DIV doesn't)
+                         return false;
+                    }
+                }
+
                 const tags = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'blockquote'];
                 return tags.includes(node.nodeName.toLowerCase()) && node.hasAttribute('id');
             },

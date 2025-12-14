@@ -40,11 +40,15 @@ describe('Converter Integration Test', () => {
 
         // 4. Check Link Rewriting
         // Link to anchor in same file
-        // Expect: [[#^local-anchor|local anchor]]
+        // Expect Target: ### Local Anchor Target ^local-anchor
+        expect(content).toMatch(/###\s*Local Anchor Target\s*\^local-anchor/);
+        // Expect Link: [[#^local-anchor|local anchor]]
         expect(content).toMatch(/\[\[#\^local-anchor\|local anchor\]\]/);
 
         // Link to another chapter's section
-        // Expect: [[#^chap2-section|Section 2.1]]
+        // Expect Target: ## Section 2.1 ^chap2-section
+        expect(content).toMatch(/##\s*Section 2\.1\s*\^chap2-section/);
+        // Expect Link: [[#^chap2-section|Section 2.1]]
         expect(content).toMatch(/\[\[#\^chap2-section\|Section 2\.1\]\]/);
 
         // Footnote link
